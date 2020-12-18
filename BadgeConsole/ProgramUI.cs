@@ -120,40 +120,102 @@ namespace BadgeConsole
         private void UpdateABadge()
         {
             Badge updateItem = new Badge();
-            
-            
+
+
             Console.Clear();
             Console.WriteLine("What is the badge number to update");
-
-             Console.ReadLine();
-
-
-            _DicofBadge.Add(newItem.BadgeID, newItem);
-
-
-
-
-            Console.WriteLine($"BadgeId:{item.Key});
-
-            Console.WriteLine(_itemRepo.Key,"has access to doors",Value.DoorNames);
-
-            Console.WriteLine("What Would like to Do?\n" +
-                "1. Remove a door" +
-                "2.Add a door");
-
             string starsAsString = Console.ReadLine();
-            updateItem.DoorNames = double.Parse(starsAsString);
-
-            if (true)
+            int badgeID = int.Parse(starsAsString);
+            Badge badge = _itemRepo.GetKeyValuePair(badgeID);
+            if (badge != null)
             {
 
+                Console.WriteLine($"{badge.BadgeID}{" has access to doors "}{string.Join("/", badge.DoorNames)}");
+                Console.WriteLine("What would you like to do?\n" +
+                    "1. Remove A door\n" +
+                    "2. Add a door \n");
+                string input = Console.ReadLine();
+
+
+
+                switch (input) // We evaluting wwhatrever read line give us
+                {
+                    case "1":
+                        Console.WriteLine("Which door would you like to remove?");
+                        string input2 = Console.ReadLine();
+                        bool inforemove = _itemRepo.RemoveADoor(badgeID, input2);
+                        if (inforemove == true)
+                        {
+                            Console.WriteLine("Door removed");
+                            //Console.WriteLine($"{badge.BadgeID}{" has access to doors "}{string.Join("/", badge.DoorNames)}");
+                            if (badge.DoorNames.Count == 0)
+                            {
+                                Console.WriteLine($"{badge.BadgeID} has access to no doors ");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{badge.BadgeID}{" has access to doors "}{string.Join("/", badge.DoorNames)}");
+
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("door has not removed");
+                        }
+
+
+
+                        break;
+                    case "2":
+                        Console.WriteLine("Which door would you like to Add?");
+                        string input3 = Console.ReadLine();
+                        bool doorAdd = _itemRepo.AddADoor(badgeID, input3);
+
+
+                        if (doorAdd == true)
+                        {
+                            Console.WriteLine("Door Added");
+                            //Console.WriteLine($"{badge.BadgeID}{" has access to doors "}{string.Join("/", badge.DoorNames)}");
+                            if (badge.DoorNames.Count == 0)
+                            {
+                                Console.WriteLine($"{badge.BadgeID} has access to no doors ");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{badge.BadgeID}{" has access to doors "}{string.Join("/", badge.DoorNames)}");
+
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("door has not removed");
+                        }
+
+                        break;
+
+
+                    default:
+                        Console.WriteLine("Please enter a valid number");
+                        break;
+
+                }
+            }
+
+
+            else
+            {
+                Console.WriteLine("Badge Id not found");
             }
 
 
 
+
+
+
+
         }
-
-
 
 
 
@@ -167,7 +229,7 @@ namespace BadgeConsole
             foreach (KeyValuePair<int, Badge> item in badgeDictionary)
             {
 
-                Console.WriteLine($"BadgeId:{item.Key}\n" +
+                Console.WriteLine($"BadgeId:{item.Key}\t" +
                     $"doorNames");
 
                 foreach (var ele in item.Value.DoorNames)
@@ -187,7 +249,7 @@ namespace BadgeConsole
             _itemRepo.AddBadgeToDictionary(badge1);
             Badge badge2 = new Badge(22345, new List<string> { "A7,A4,B1,B2" });
             _itemRepo.AddBadgeToDictionary(badge2);
-            Badge badge3 = new Badge(22352, new List<string> { "A4,A5" });
+            Badge badge3 = new Badge(32345, new List<string> { "A4,A5" });
             _itemRepo.AddBadgeToDictionary(badge3);
 
 

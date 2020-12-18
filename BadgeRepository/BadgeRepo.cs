@@ -20,6 +20,38 @@ namespace BadgeRepository
         }
 
 
+
+        //ADD
+
+
+        public bool AddADoor(int badgeId, string doorNames)
+
+        {
+            Badge badge = GetKeyValuePair(badgeId);
+
+            if (badge == null)
+            {
+                return false;
+            }
+
+
+            int orignailNumber = badge.DoorNames.Count;
+            badge.DoorNames.Add(doorNames);
+
+            if (orignailNumber < badge.DoorNames.Count)
+            {
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
         //Read
         public Dictionary<int, Badge> GetBadgeDictionary()
         {
@@ -32,21 +64,22 @@ namespace BadgeRepository
 
 
 
-        // Delete 
-        /*public bool RemoveADoor(int badgeId)
+        //Delete 
+        public bool RemoveADoor(int badgeId, string doorNames)
 
         {
+            Badge badge = GetKeyValuePair(badgeId);
 
-            if (badge.BadgeID != badgeId)
+            if (badge == null)
             {
                 return false;
             }
 
 
-            int orignailNumber = _DicofBadge.Count;
-            _DicofBadge.Remove(badge.BadgeID);
+            int orignailNumber = badge.DoorNames.Count;
+            badge.DoorNames.Remove(doorNames);
 
-            if (orignailNumber > _DicofBadge.Count)
+            if (orignailNumber > badge.DoorNames.Count)
             {
                 return true;
 
@@ -55,19 +88,23 @@ namespace BadgeRepository
             {
                 return false;
             }
-        }*/
+        }
 
 
+
+
+
+        
 
         // Helper Method 
-        public Dictionary<int, Badge> GetKeyValuePair(int badgeID)
+        public Badge GetKeyValuePair(int badgeID)
         {
-            foreach (Dictionary<int, Badge>  badge in _DicofBadge)
+            foreach (KeyValuePair<int, Badge> badge in _DicofBadge)
             {
-               // if (badge.TryGetValue(badgeID,out badge.Values)) 
-                    if(badge.Key==badgeID)
+                if (badge.Key == badgeID) 
+                
                 {
-                    return badge;
+                    return badge.Value;
                 }
             }
 
